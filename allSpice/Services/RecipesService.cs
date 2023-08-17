@@ -20,6 +20,19 @@ public class RecipesService
         Recipe recipe = GetRecipeById(recipeId);
         return recipe;
     }
+
+    internal Recipe EditRecipe(int recipeId, Recipe recipeData)
+    {
+        Recipe ogRecipe = GetRecipeById(recipeId);
+        ogRecipe.Category = recipeData.Category ?? ogRecipe.Category;
+        ogRecipe.Title = recipeData.Title ?? ogRecipe.Title;
+        ogRecipe.Instructions = recipeData.Instructions ?? ogRecipe.Instructions;
+        Recipe recipe = _recipesRepository.EditRecipe(ogRecipe);
+        return recipe;
+
+        
+    }
+
     internal Recipe GetRecipeById(int recipeId)
     {
         Recipe recipe = _recipesRepository.GetRecipeById(recipeId);

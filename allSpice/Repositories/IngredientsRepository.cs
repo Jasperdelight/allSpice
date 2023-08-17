@@ -33,4 +33,28 @@ public class IngredientsRepository
         Ingredient ingredient = _db.QueryFirstOrDefault<Ingredient>(sql, new {ingredientId});
         return ingredient;
     }
+
+    internal List<Ingredient> GetIngredientByRecipeId(int recipeId)
+    {
+        string sql = @"
+        SELECT * FROM ingredients WHERE recipeId = @recipeId
+        ;";
+        List<Ingredient> ingredients = _db.Query<Ingredient>(sql, new {recipeId}).ToList();
+        return ingredients;
+    }
+
+    internal List<Ingredient> GetIngredients()
+    {
+        string sql = @"
+        SELECT * FROM ingredients
+        ;";
+        List<Ingredient> ingredients = _db.Query<Ingredient>(sql).ToList();
+        return ingredients;
+    }
+
+    internal void RemoveIngredients(int ingredientId)
+    {
+        string sql = "DELETE FROM ingredients WHERE id = @ingredientId LIMIT 1;";
+        _db.Execute(sql, new {ingredientId});
+    }
 }

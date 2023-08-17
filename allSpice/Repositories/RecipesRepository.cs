@@ -25,6 +25,22 @@ public class RecipesRepository
         return recipeId;
     }
 
+    internal Recipe EditRecipe(Recipe ogRecipe)
+    {
+        string sql = @"
+        UPDATE recipes
+        SET
+        category = @Category,
+        title = @Title,
+        instructions = @Instructions
+        WHERE id = @Id
+        LIMIT 1;
+        SELECT * FROM recipes WHERE id = @Id
+        ;";
+        Recipe updatedRecipe = _db.QueryFirstOrDefault<Recipe>(sql, ogRecipe);
+        return updatedRecipe;
+    }
+
     internal Recipe GetRecipeById(int recipeId)
     {
         string sql = @"

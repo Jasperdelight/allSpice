@@ -32,4 +32,30 @@ public class IngredientsController : ControllerBase
           return BadRequest(e.Message);
       }
     }
+    [HttpGet]
+    public ActionResult<List<Ingredient>> GetIngredients()
+    {
+      try
+      {
+        List<Ingredient> ingredients = _ingredientsService.GetIngredients();
+      return Ok(ingredients);
+      }
+       catch(Exception e) 
+      {
+          return BadRequest(e.Message);
+      }
+    }
+    [HttpDelete("{ingredientId}")]
+    public ActionResult<string> RemoveIngredients(int ingredientId)
+    {
+      try
+      {
+        _ingredientsService.RemoveIngredients(ingredientId);
+      return Ok("ingredients removed");
+      }
+       catch(Exception e) 
+      {
+          return BadRequest(e.Message);
+      }
+    }
 }
