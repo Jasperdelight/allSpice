@@ -51,7 +51,8 @@ return Ok(recipes);
 }
   }
 
-  [HttpGet("recipeId")]
+
+  [HttpGet("{recipeId}")]
     public ActionResult<Recipe> GetRecipeById(int recipeId)
     {
       try
@@ -64,5 +65,20 @@ return Ok(recipes);
           return BadRequest(e.Message);
       }
     }
-  
+
+  [Authorize]
+  [HttpDelete("{recipeId}")]
+  public async Task<ActionResult <string>> RemoveRecipe(int recipeId)
+  {
+    try
+    {
+      Account userInfo = await _auth0Provider.GetUserInfoAsync<Account>(HttpContext);
+      _recipesService.RemoveRecipe(recipeId, userInfo.Id);
+    return Ok("Recipe has been deleted");
+    }
+     catch(Exception e) 
+    {
+        return BadRequest(e.Message);
+    }
+  }
 }

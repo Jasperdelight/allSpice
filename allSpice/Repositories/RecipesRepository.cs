@@ -28,16 +28,47 @@ public class RecipesRepository
     internal Recipe GetRecipeById(int recipeId)
     {
         string sql = @"
-        SELECT * FROM recipes WHERE Id = @recipeId
+        SELECT
+        rec.*,
+        acc.*
+        FROM recipes rec
+        JOIN accounts acc ON acc.id = rec.creatorId
+        WHERE rec.id = @recipeId LIMIT 1
         ;";
-        Recipe recipe = _db.QueryFirstOrDefault<Recipe>(sql ,new {recipeId});
+        Recipe recipe = _db.Query<Recipe, Profile, Recipe>(
+            sql ,
+            (recipe, profile)=>
+            {
+                recipe.Creator = profile;
+                return recipe;
+            },
+        new {recipeId}).FirstOrDefault();
         return recipe;
     }
 
     internal List<Recipe> GetRecipes()
     {
-        string sql = "SELECT * FROM recipes;";
-        List<Recipe> recipes = _db.Query<Recipe>(sql).ToList();
+        string sql = @"
+        SELECT 
+        rec.*,
+        acc.* 
+        FROM recipes rec
+        JOIN accounts acc ON acc.id = rec.creatorId
+        ;";
+        List<Recipe> recipes = _db.Query<Recipe, Profile, Recipe>(
+        sql,
+        (recipes, profile) =>
+        {
+            recipes.Creator = profile;
+            return recipes;
+        }
+        ).ToList();
         return recipes;
+    }
+
+    internal void RemoveRecipe(int recipeId)
+    {
+        string sql = "DELETE FROM recipes WHERE id = @recipeId LIMIT 1;";
+        _db.Execute(sql, new{recipeId});
     }
 }

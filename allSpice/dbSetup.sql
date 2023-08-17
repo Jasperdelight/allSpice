@@ -15,9 +15,20 @@ recipes(
   title VARCHAR(255) NOT NULL,
   instructions VARCHAR(255) NOT NULL,
   img VARCHAR(700) NOT NULL,
-  category ENUM('pasta', 'soup', 'fish', 'salads', 'beef', 'burgers', 'misc', 'cheese', 'italian', 'mexican', 'Specialty Coffee' ) DEFAULT 'misc',
+  category ENUM('Pasta', 'Soup', 'Fish', 'Salads', 'Beef', 'Burgers', 'Misc', 'Cheese', 'Italian', 'Mexican', 'Specialty Coffee' ) DEFAULT 'misc',
   creatorId VARCHAR(255) NOT NULL,
   FOREIGN KEY(creatorId) REFERENCES accounts(id) ON DELETE CASCADE
+)default charset utf8 COMMENT '';
+
+CREATE TABLE
+ingredients(
+  id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  createdAt DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT 'Time Created',
+  updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Last Update',
+  name VARCHAR(255) NOT NULL,
+  quantity VARCHAR(255) NOT NULL,
+  recipeId INT NOT NULL,
+  FOREIGN KEY(recipeId) REFERENCES recipes(id) ON DELETE CASCADE
 )default charset utf8 COMMENT '';
 
    SELECT * FROM recipes WHERE Id = 1;

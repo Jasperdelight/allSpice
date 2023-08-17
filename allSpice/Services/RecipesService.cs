@@ -23,7 +23,8 @@ public class RecipesService
     internal Recipe GetRecipeById(int recipeId)
     {
         Recipe recipe = _recipesRepository.GetRecipeById(recipeId);
-        if(recipe == null){
+        if(recipe == null)
+        {
             throw new Exception("bad request");
         }
         return recipe;
@@ -33,5 +34,15 @@ public class RecipesService
     {
         List<Recipe> recipes = _recipesRepository.GetRecipes();
         return recipes;
+    }
+
+    internal void RemoveRecipe(int recipeId, string userId)
+    {
+        Recipe recipe = GetRecipeById(recipeId);
+        if (recipe.CreatorId != userId)
+        {
+            throw new Exception("You can't delete this");
+        }
+        _recipesRepository.RemoveRecipe(recipeId);
     }
 }
