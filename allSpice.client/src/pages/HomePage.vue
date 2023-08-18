@@ -1,19 +1,28 @@
 <template>
-  <div class="home flex-grow-1 d-flex flex-column align-items-center justify-content-center">
-    <div class="home-card p-5 bg-white rounded elevation-3">
-      <img src="https://bcw.blob.core.windows.net/public/img/8600856373152463" alt="CodeWorks Logo"
-        class="rounded-circle">
-      <h1 class="my-5 bg-dark text-white p-3 rounded text-center">
-        Vue 3 Starter
-      </h1>
-    </div>
-  </div>
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  Launch demo modal
+</button>
+    <p v-for="recipe in recipes" :key="recipe.id">
+      {{ recipe.title }}
+    </p>
+<Modal/>
 </template>
 
 <script>
+import { computed, onMounted } from "vue";
+import { AppState } from "../AppState";
+import {recipesService} from "../services/RecipesService"
+
 export default {
   setup() {
-    return {}
+    async function getRecipes(){
+      await recipesService.getRecipes();
+    }
+    onMounted(()=> getRecipes())
+    return {
+      recipes: computed(()=> AppState.Recipes),
+
+    }
   }
 }
 </script>
