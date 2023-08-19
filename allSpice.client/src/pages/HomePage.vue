@@ -1,17 +1,17 @@
 <template>
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-  Launch demo modal
-</button>
-    <p v-for="recipe in recipes" :key="recipe.id">
-      {{ recipe.title }}
-    </p>
-<Modal/>
+    <div v-for="recipe in recipes" :key="recipe.id">
+      <button @click="setActiveRecipe(recipe)" class="btn btn-outline" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        {{ recipe.title }}
+      </button>
+    </div>
+    <Modal />
 </template>
 
 <script>
 import { computed, onMounted } from "vue";
 import { AppState } from "../AppState";
 import {recipesService} from "../services/RecipesService"
+import { logger } from "../utils/Logger";
 
 export default {
   setup() {
@@ -21,6 +21,9 @@ export default {
     onMounted(()=> getRecipes())
     return {
       recipes: computed(()=> AppState.Recipes),
+      setActiveRecipe(recipe){
+        recipesService.setActiveRecipe(recipe)
+      }
 
     }
   }
