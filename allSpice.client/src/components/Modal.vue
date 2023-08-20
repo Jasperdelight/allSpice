@@ -24,8 +24,9 @@
                 <div class="col-5 bg-grey mx-2">
                   <h5>Recipe Steps</h5>
                   <p>{{ activeRecipe.instructions }}</p>
-                  <form action="">
-                    <input type="text" class="form-control">
+                  <form @submit.prevent="addInstructions()" action="" class="d-flex">
+                    <input v-model="editableTwo.instructions" id="instructions" type="text" class="form-control">
+                    <button type="submit">+</button>
                   </form>
                 </div>
                 <div class="col-5 bg-grey mx-2">
@@ -33,8 +34,10 @@
                   <div v-for="activeIngredient in activeIngredients" :key="activeIngredient.id">
                     <p> <span>{{ activeIngredient.quantity }}</span> {{activeIngredient.name}}</p>
                   </div>
-                    <form action="" class="">
-                      <input type="text" class="form-control">
+                    <form @submit.prevent="addIngredients()" action="" class="d-flex" id="form">
+                      <input v-model="editable.quantity" id="quantity" type="text" class="form-control" placeholder="quantity...">
+                      <input v-model="editable.name" id="name" type="text" class="form-control" placeholder="Ingredient...">
+                      <button type="submit"><i class="mdi mdi-plus"></i></button>
                     </form>
                 </div>
               </section>
@@ -52,15 +55,18 @@
 
 
 <script>
-import { computed, onMounted, watch, watchEffect } from "vue";
+import { computed, onMounted, ref, watch, watchEffect } from "vue";
 import { AppState } from "../AppState";
 import {ingredientsService} from "../services/IngredientsService"
+import { logger } from "../utils/Logger";
 
 
 export default {
 
 
   setup(){
+    const editable = ref({})
+    const editableTwo = ref({})
     async function getIngredients(){
     await ingredientsService.getIngredients()
   }
@@ -75,7 +81,15 @@ export default {
     
     return {
       activeRecipe: computed(()=> AppState.activeRecipe),
-      activeIngredients: computed(()=> AppState.activeIngredients)
+      activeIngredients: computed(()=> AppState.activeIngredients),
+      editable,
+      editableTwo,
+      addInstructions(){
+        logger.log('editableTwo', editableTwo.value)
+      },
+      addIngredients(){
+        logger.log('editable', editable)
+      }
     }
   }
 }
