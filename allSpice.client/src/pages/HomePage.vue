@@ -1,9 +1,17 @@
 <template>
-    <div v-for="recipe in recipes" :key="recipe.id">
-      <button @click="setActiveRecipe(recipe)" class="btn btn-outline" data-bs-toggle="modal" data-bs-target="#exampleModal">
-        {{ recipe.title }}
+  <div class="container-fluid">
+    <section class="row justify-content-center">
+      <button v-for="recipe in recipes" :key="recipe.id" class="col-3 m-4 btn btn-outline bg-grey" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        <h5 class="d-flex justify-content-between">{{ recipe.title }} <i class="mdi mdi-heart"></i></h5>
+        <img :src="recipe.img" class="img-fluid recipe-img" alt=""  @click="setActiveRecipe(recipe)" >
+
       </button>
-    </div>
+    </section>
+  </div>
+      <!-- <button @click="setActiveRecipe(recipe)" class="btn btn-outline" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        {{ recipe.title }}
+      </button> -->
+
     <Modal />
 </template>
 
@@ -17,6 +25,7 @@ export default {
   setup() {
     async function getRecipes(){
       await recipesService.getRecipes();
+      
     }
     onMounted(()=> getRecipes())
     return {
@@ -48,6 +57,17 @@ export default {
       object-fit: contain;
       object-position: center;
     }
+
   }
+
 }
+.recipe-img{
+      max-height: 200px;
+      min-width:200px;
+      height: 100%;
+      width: 100%;
+      object-position: center;
+      
+
+    }
 </style>
