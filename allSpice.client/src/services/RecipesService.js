@@ -13,5 +13,14 @@ class RecipesService {
   setActiveRecipe(recipe){
     AppState.activeRecipe = new Recipe(recipe)
   }
+async addInstructions(instructions, recipeId){
+  const res = await api.put(`api/recipes/${recipeId}`, instructions)
+  // logger.log(res.data)
+  AppState.activeRecipe = new Recipe(res.data)
+  const foundRecipe = AppState.Recipes.findIndex(r => r.id == recipeId)
+  // logger.log('foundRecipe?', foundRecipe)
+  AppState.Recipes.splice(foundRecipe, 1, new Recipe(res.data))
+}
+
 }
 export const recipesService = new RecipesService()

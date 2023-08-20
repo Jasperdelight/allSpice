@@ -8,12 +8,12 @@ class IngredientsService{
   async  getIngredients(){
     let recipeId = AppState.activeRecipe?.id
     const res = await api.get(`api/recipes/${recipeId}/ingredients`)
-    logger.log(res.data.length)
+    // logger.log(res.data.length)
     if (res.data.length == 1) {
       AppState.activeIngredients = new Ingredient(res.data)
     }
     AppState.activeIngredients = res.data.map(i=> new Ingredient(i))
-    logger.log(AppState.activeIngredients, "ingredients")
+    // logger.log(AppState.activeIngredients, "ingredients")
   }
 }
 export const ingredientsService = new IngredientsService()

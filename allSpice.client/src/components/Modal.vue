@@ -59,6 +59,7 @@ import { computed, onMounted, ref, watch, watchEffect } from "vue";
 import { AppState } from "../AppState";
 import {ingredientsService} from "../services/IngredientsService"
 import { logger } from "../utils/Logger";
+import { recipesService } from "../services/RecipesService";
 
 
 export default {
@@ -84,8 +85,13 @@ export default {
       activeIngredients: computed(()=> AppState.activeIngredients),
       editable,
       editableTwo,
-      addInstructions(){
-        logger.log('editableTwo', editableTwo.value)
+      async addInstructions(){
+        // editableTwo.value.recipeId = this.activeRecipe.id
+        // editableTwo.value
+        const newInstructions = AppState.activeRecipe
+        newInstructions.instructions = editableTwo.value.instructions
+        // logger.log('editableTwo', editableTwo.value)
+        await recipesService.addInstructions(newInstructions, this.activeRecipe.id) 
       },
       addIngredients(){
         logger.log('editable', editable)
