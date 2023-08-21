@@ -15,5 +15,10 @@ class IngredientsService{
     AppState.activeIngredients = res.data.map(i=> new Ingredient(i))
     // logger.log(AppState.activeIngredients, "ingredients")
   }
+  async addIngredients(iData){
+    const res = await api.post(`api/ingredients`, iData)
+    AppState.activeIngredients.push(new Ingredient(res.data))
+    logger.log(res.data)
+  }
 }
 export const ingredientsService = new IngredientsService()

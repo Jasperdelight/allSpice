@@ -1,4 +1,5 @@
 import { AppState } from "../AppState"
+import { Ingredient } from "../models/Ingredient"
 import { Recipe } from "../models/Recipe"
 import { logger } from "../utils/Logger"
 import { api } from "./AxiosService"

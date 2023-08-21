@@ -1,11 +1,11 @@
 <template>
   <div class="container-fluid">
     <section class="row justify-content-center">
-      <button v-for="recipe in recipes" :key="recipe.id" class="col-3 m-4 btn btn-outline bg-grey" data-bs-toggle="modal" data-bs-target="#exampleModal">
-        <h5 class="d-flex justify-content-between">{{ recipe.title }} <i class="mdi mdi-heart"></i></h5>
-        <img :src="recipe.img" class="img-fluid recipe-img" alt=""  @click="setActiveRecipe(recipe)" >
+      <div v-for="recipe in recipes" :key="recipe.id" class="col-3 m-4 " >
+        <RecipeComponent :recipe="recipe"/>
+        
 
-      </button>
+      </div>
     </section>
   </div>
       <!-- <button @click="setActiveRecipe(recipe)" class="btn btn-outline" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -16,22 +16,36 @@
 </template>
 
 <script>
-import { computed, onMounted } from "vue";
+import { computed, onMounted, watchEffect } from "vue";
 import { AppState } from "../AppState";
 import {recipesService} from "../services/RecipesService"
+import {favoritesService} from "../services/FavoritesService"
 import { logger } from "../utils/Logger";
+import Pop from "../utils/Pop";
 
 export default {
   setup() {
     async function getRecipes(){
       await recipesService.getRecipes();
-      
     }
-    onMounted(()=> getRecipes())
+    async function getFavorites(){
+      await favoritesService.getFavorites()
+    }
+    onMounted(()=> 
+    getRecipes()
+    ) 
     return {
       recipes: computed(()=> AppState.Recipes),
+      favorites: computed(()=> AppState.favorites),
       setActiveRecipe(recipe){
         recipesService.setActiveRecipe(recipe)
+      },
+      favoriteRecipe(recipeId){
+        if (AppState.favorites.find(f=> f.recipeId == recipeId)) {
+          Pop.error('Already Favorited This Recipe')
+          return
+        }
+        favoritesService.favoriteRecipe(recipeId)
       }
 
     }

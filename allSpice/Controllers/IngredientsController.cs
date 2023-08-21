@@ -20,6 +20,7 @@ public class IngredientsController : ControllerBase
     }
     
     [HttpPost]
+    
     public ActionResult<Ingredient> CreateIngredient([FromBody] Ingredient iData)
     {
       try

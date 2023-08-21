@@ -1,7 +1,7 @@
 <template>
-  <div v-if="activeRecipe" class="modal fade modal-xl" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="min-width: 90%;">
+  <div class="modal fade modal-xl" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="min-width: 90%;">
   <div class="modal-dialog" role="document">
-    <div class="modal-content">
+    <div v-if="activeRecipe" class="modal-content">
       <div class="modal-header modal-xl">
         <h5 class="modal-title" id="exampleModalLabel">{{ activeRecipe.title }}</h5>
         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
@@ -93,8 +93,10 @@ export default {
         // logger.log('editableTwo', editableTwo.value)
         await recipesService.addInstructions(newInstructions, this.activeRecipe.id) 
       },
-      addIngredients(){
-        logger.log('editable', editable)
+      async addIngredients(){
+        let newIngredient = editable.value
+        newIngredient.recipeId = this.activeRecipe.id
+        await ingredientsService.addIngredients(newIngredient)
       }
     }
   }
