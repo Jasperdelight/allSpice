@@ -1,23 +1,12 @@
 <template>
-  <div class="modal fade modal-xl" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="min-width: 90%;">
-  <div class="modal-dialog" role="document">
-    <div v-if="activeRecipe" class="modal-content">
-      <div class="modal-header modal-xl">
-        <h5 class="modal-title" id="exampleModalLabel">{{ activeRecipe.title }}</h5>
-        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body modal-xl">
-        <div class="container-fluid">
-          <section class="row">
+  <div class="container-fluid">
+          <section class="row " v-if="activeRecipe">
             <div class="col-4">
               <img class="img-fluid" :src="activeRecipe.img" alt="">
             </div>
             <div class="col-8">
               <section class="row">
                 <div class="col-12">
-                  <!-- <h4>{{ activeRecipe.title }}</h4> -->
                 </div>
               </section>
               <section class="row">
@@ -44,27 +33,16 @@
             </div>
           </section>
         </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> 
-      </div>
-    </div>
-  </div>
-</div>
 </template>
 
 
 <script>
-import { computed, onMounted, ref, watch, watchEffect } from "vue";
+import { computed, ref, watch } from "vue";
+import { ingredientsService } from "../services/IngredientsService";
 import { AppState } from "../AppState";
-import {ingredientsService} from "../services/IngredientsService"
-import { logger } from "../utils/Logger";
 import { recipesService } from "../services/RecipesService";
 
-
 export default {
-
-
   setup(){
     const editable = ref({})
     const editableTwo = ref({})
@@ -79,7 +57,6 @@ export default {
         }
       }
     );
-    
     return {
       activeRecipe: computed(()=> AppState.activeRecipe),
       activeIngredients: computed(()=> AppState.activeIngredients),
@@ -98,6 +75,7 @@ export default {
         newIngredient.recipeId = this.activeRecipe.id
         await ingredientsService.addIngredients(newIngredient)
       }
+      
     }
   }
 }

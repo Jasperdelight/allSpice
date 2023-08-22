@@ -1,18 +1,30 @@
 <template>
   <div class="container-fluid">
     <section class="row justify-content-center">
+      <button class="btn btn" data-bs-toggle="modal" data-bs-target="#newRecipeModal">+</button >
       <div v-for="recipe in recipes" :key="recipe.id" class="col-3 m-4 " >
         <RecipeComponent :recipe="recipe"/>
         
-
       </div>
     </section>
   </div>
-      <!-- <button @click="setActiveRecipe(recipe)" class="btn btn-outline" data-bs-toggle="modal" data-bs-target="#exampleModal">
-        {{ recipe.title }}
-      </button> -->
-
-    <Modal />
+  <ModalCard id="newRecipeModal">
+    <template #modalHeader>
+      New Recipe
+    </template>
+    <template #modalBody>
+      something
+    </template>
+  </ModalCard>
+  <!-- <ModalCard id="exampleModal"/> -->
+  <ModalCard  id="exampleModal">
+    <template #modalHeader>
+      <h4>{{ activeRecipe?.title }}</h4>
+    </template>
+    <template #modalBody>
+      <RecipeForm/>
+    </template>
+  </ModalCard>
 </template>
 
 <script>
@@ -22,34 +34,33 @@ import {recipesService} from "../services/RecipesService"
 import {favoritesService} from "../services/FavoritesService"
 import { logger } from "../utils/Logger";
 import Pop from "../utils/Pop";
+import RecipeForm from "../components/RecipeForm.vue";
 
 export default {
-  setup() {
-    async function getRecipes(){
-      await recipesService.getRecipes();
-    }
-    async function getFavorites(){
-      await favoritesService.getFavorites()
-    }
-    onMounted(()=> 
-    getRecipes()
-    ) 
-    return {
-      recipes: computed(()=> AppState.Recipes),
-      favorites: computed(()=> AppState.favorites),
-      setActiveRecipe(recipe){
-        recipesService.setActiveRecipe(recipe)
-      },
-      favoriteRecipe(recipeId){
-        if (AppState.favorites.find(f=> f.recipeId == recipeId)) {
-          Pop.error('Already Favorited This Recipe')
-          return
+    setup() {
+        async function getRecipes() {
+            await recipesService.getRecipes();
         }
-        favoritesService.favoriteRecipe(recipeId)
-      }
-
-    }
-  }
+        async function getFavorites() {
+            await favoritesService.getFavorites();
+        }
+        onMounted(() => getRecipes());
+        return {
+            recipes: computed(() => AppState.Recipes),
+            favorites: computed(() => AppState.favorites),
+            activeRecipe: computed(()=> AppState.activeRecipe),
+            setActiveRecipe(recipe) {
+                recipesService.setActiveRecipe(recipe);
+            },
+            favoriteRecipe(recipeId) {
+                if (AppState.favorites.find(f => f.recipeId == recipeId)) {
+                    Pop.error('Already Favorited This Recipe');
+                    return;
+                }
+                favoritesService.favoriteRecipe(recipeId);
+            }
+        };
+    },
 }
 </script>
 
