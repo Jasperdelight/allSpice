@@ -1,7 +1,13 @@
 <template>
   <div class="container-fluid">
     <section class="row justify-content-center">
+      <!-- New recipe button -->
       <button class="btn btn" data-bs-toggle="modal" data-bs-target="#newRecipeModal">+</button >
+        <!-- Favorite Button -->
+        <div class="col-3"><button @click="filterBy ='Mexican'">Mexican</button></div>
+        <div class="col-3"><button @click="filterBy =''">All</button></div>
+        <div class="col-3"><button @click="getFavoriteRecipes()">Favorites</button></div>
+        <!-- Recipe Cards -->
       <div v-for="recipe in recipes" :key="recipe.id" class="col-3 m-4 " >
         <RecipeComponent :recipe="recipe"/>
         
@@ -10,14 +16,14 @@
   </div>
   <ModalCard id="newRecipeModal">
     <template #modalHeader>
-      New Recipe
+      Create New Recipe
     </template>
     <template #modalBody>
-      something
+      <RecipeModal/>
     </template>
   </ModalCard>
   <!-- <ModalCard id="exampleModal"/> -->
-  <ModalCard  id="exampleModal">
+  <ModalCard id="exampleModal">
     <template #modalHeader>
       <h4>{{ activeRecipe?.title }}</h4>
     </template>
@@ -28,7 +34,7 @@
 </template>
 
 <script>
-import { computed, onMounted, watchEffect } from "vue";
+import { computed, onMounted, ref, watchEffect } from "vue";
 import { AppState } from "../AppState";
 import {recipesService} from "../services/RecipesService"
 import {favoritesService} from "../services/FavoritesService"
@@ -38,6 +44,7 @@ import RecipeForm from "../components/RecipeForm.vue";
 
 export default {
     setup() {
+      const filterBy = ref('')
         async function getRecipes() {
             await recipesService.getRecipes();
         }
@@ -46,7 +53,14 @@ export default {
         }
         onMounted(() => getRecipes());
         return {
-            recipes: computed(() => AppState.Recipes),
+          filterBy,
+            recipes: computed(() =>{
+              if(filterBy.value == ''){
+                return AppState.Recipes
+              } else{
+                return AppState.Recipes.filter(r=> r.category == filterBy.value)
+              }
+            }),
             favorites: computed(() => AppState.favorites),
             activeRecipe: computed(()=> AppState.activeRecipe),
             setActiveRecipe(recipe) {
@@ -54,10 +68,19 @@ export default {
             },
             favoriteRecipe(recipeId) {
                 if (AppState.favorites.find(f => f.recipeId == recipeId)) {
-                    Pop.error('Already Favorited This Recipe');
-                    return;
+                  favoritesService.favoriteRecipe(recipeId);
                 }
-                favoritesService.favoriteRecipe(recipeId);
+            },
+            getFavoriteRecipes(){
+              try{
+                const favorites = AppState.favorites
+
+                recipesService.getFavoriteRecipes(favorites)
+                  
+              } catch(error) {
+                  Pop.error(error.message);
+                  logger.log(error);
+              }
             }
         };
     },

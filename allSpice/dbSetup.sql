@@ -13,7 +13,7 @@ recipes(
   createdAt DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT 'Time Created',
   updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Last Update',
   title VARCHAR(255) NOT NULL,
-  instructions VARCHAR(255) NOT NULL,
+  instructions VARCHAR(255),
   img VARCHAR(700) NOT NULL,
   category ENUM('Pasta', 'Soup', 'Fish', 'Salads', 'Beef', 'Burgers', 'Misc', 'Cheese', 'Italian', 'Mexican', 'Specialty Coffee' ) DEFAULT 'misc',
   creatorId VARCHAR(255) NOT NULL,
@@ -48,3 +48,4 @@ favorites(
    INSERT INTO favorites(id, accountId, recipeId)
    VALUES (2, jhkahreah21, 53);
   
+  DROP TABLE recipes;

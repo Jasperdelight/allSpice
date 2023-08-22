@@ -11,6 +11,10 @@ class RecipesService {
     AppState.Recipes = res.data.map(r => new Recipe(r))
     // logger.log(AppState.Recipes, "recipes")
   }
+  async getFavoriteRecipes(favorites){
+    const res = await api.get("api/recipes")
+
+  }
   setActiveRecipe(recipe){
     AppState.activeRecipe = new Recipe(recipe)
   }
@@ -21,6 +25,10 @@ async addInstructions(instructions, recipeId){
   const foundRecipe = AppState.Recipes.findIndex(r => r.id == recipeId)
   // logger.log('foundRecipe?', foundRecipe)
   AppState.Recipes.splice(foundRecipe, 1, new Recipe(res.data))
+}
+async createRecipe(formData){
+  const res = await api.post('api/recipes', formData)
+  logger.log(res.data)
 }
 
 }

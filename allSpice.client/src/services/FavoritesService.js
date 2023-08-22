@@ -14,6 +14,8 @@ class FavoritesService{
     logger.log(res.data)
     // AppState.favorites = res.data.map(f=> f)
     AppState.favorites = res.data
+    // const favoriteId = AppState.favorites.
+    // AppState.Recipes.find(r=> r.id == res.data)
   }
 }
 export const favoritesService = new FavoritesService()
