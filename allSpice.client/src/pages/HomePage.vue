@@ -1,37 +1,21 @@
 <template>
   <div class="container-fluid">
-    <section class="row justify-content-center">
+    <section class="row justify-content-center text-center">
+      <h1 class="text-center">AllSpice</h1>
       <!-- New recipe button -->
-      <button class="btn btn" data-bs-toggle="modal" data-bs-target="#newRecipeModal">+</button >
         <!-- Favorite Button -->
-        <div class="col-3"><button class="btn btn-outline" @click="filterBy =''">All</button></div>
         <div class="col-3 "><button class="btn btn-outline" @click="filterBy ='Mexican'">Mexican</button></div>
         <div class="col-3 "><button class="btn btn-outline" @click="filterBy ='Italian'">Italian</button></div>
-        <div class="col-3"><button class="btn btn-outline" @click="filterFavorite = 'fav'">Favorites</button></div>
+        <div class="col-3"><button class="btn btn-outline" @click="filterBy = 'Cheese'">Cheese</button></div>
+        <div class="col-3"><button class="btn btn-outline" @click="filterBy =''">All</button></div>
         <!-- Recipe Cards -->
-      <div v-for="recipe in recipes" :key="recipe.id" class="col-3 m-4 " >
+      <div v-for="recipe in recipes" :key="recipe.id" class="col-3" >
         <RecipeComponent :recipe="recipe"/>
         
       </div>
     </section>
   </div>
-  <ModalCard id="newRecipeModal">
-    <template #modalHeader>
-      Create New Recipe
-    </template>
-    <template #modalBody>
-      <RecipeModal/>
-    </template>
-  </ModalCard>
-  <!-- <ModalCard id="exampleModal"/> -->
-  <ModalCard id="exampleModal">
-    <template #modalHeader>
-      <h4>{{ activeRecipe?.title }}</h4>
-    </template>
-    <template #modalBody>
-      <RecipeForm/>
-    </template>
-  </ModalCard>
+
 </template>
 
 <script>
@@ -50,9 +34,7 @@ export default {
         async function getRecipes() {
             await recipesService.getRecipes();
         }
-        async function getFavorites() {
-            await favoritesService.getFavorites();
-        }
+
         onMounted(() => getRecipes());
         return {
           filterFavorite,
@@ -87,7 +69,7 @@ export default {
                 const favorites = AppState.favorites
 
                 recipesService.getFavoriteRecipes(favorites)
-                logger.log(favorites)
+                // logger.log(favorites)
               } catch(error) {
                   Pop.error(error.message);
                   logger.log(error);

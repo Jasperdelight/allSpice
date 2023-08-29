@@ -12,9 +12,10 @@
     <div class="collapse navbar-collapse" id="navbarText">
       <ul class="navbar-nav me-auto">
         <li>
-          <router-link :to="{ name: 'About' }" class="btn text-success lighten-30 selectable text-uppercase">
-            About
+          <router-link :to="{ name: 'Favorites' }" class="btn text-warning lighten-30 selectable text-uppercase">
+            Favorites
           </router-link>
+          <button class="btn btn text-primary" data-bs-toggle="modal" data-bs-target="#newRecipeModal">+</button >
         </li>
       </ul>
       <!-- LOGIN COMPONENT HERE -->

@@ -36,7 +36,9 @@
     <label for="img" class="">Image</label>
     <input v-model="editable.img" class="form-control" type="url" placeholder="image.." id="img" required>
   </div>
-  <button class="btn btn-success text-end">+</button>
+  <div class="d-flex justify-content-end p-2">
+    <button class="btn btn-success text-end">+</button>
+  </div>
 </form>
 </template>
 
@@ -58,7 +60,7 @@ export default {
       async createRecipe(){
         try{
           const formData = editable.value
-          logger.log(formData,'form submitted')
+          // logger.log(formData,'form submitted')
           await recipesService.createRecipe(formData)
           editable.value = {}
           Modal.getOrCreateInstance('#exampleModal').hide()

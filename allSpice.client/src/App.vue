@@ -5,7 +5,25 @@
   <main>
     <router-view />
   </main>
-
+  <ModalCard id="newRecipeModal">
+    <template  #modalHeader>
+      <h2 class="text-center">
+        Create New Recipe
+      </h2>
+    </template>
+    <template #modalBody>
+      <RecipeModal/>
+    </template>
+  </ModalCard>
+  <!-- <ModalCard id="exampleModal"/> -->
+  <ModalCard id="exampleModal">
+    <template #modalHeader>
+      <h4>{{ activeRecipe?.title }}</h4>
+    </template>
+    <template #modalBody>
+      <RecipeForm/>
+    </template>
+  </ModalCard>
 </template>
 
 <script>
@@ -16,7 +34,9 @@ import Navbar from './components/Navbar.vue'
 export default {
   setup() {
     return {
-      appState: computed(() => AppState)
+      appState: computed(() => AppState),
+      activeRecipe: computed(()=> AppState.activeRecipe
+      )
     }
   },
   components: { Navbar }
