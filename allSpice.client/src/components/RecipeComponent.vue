@@ -1,13 +1,16 @@
 <template>
-  <h5  class="d-flex justify-content-between">{{ recipe.title }} 
-    <div>
-      <i v-if="!isFavorited" @click="favoriteRecipe(recipe.id)" class="mdi mdi-heart-outline selectable"></i>
-      <i v-else @click="unFavoriteRecipe(recipe.id)" class="mdi mdi-heart selectable"></i>
+  <figcaption>
+
+    <h5  class="d-flex justify-content-between">{{ recipe.title }} 
+      <div>
+        <i v-if="!isFavorited" @click="favoriteRecipe(recipe.id)" class="mdi mdi-heart-outline selectable"></i>
+        <i v-else @click="unFavoriteRecipe(recipe.id)" class="mdi mdi-heart selectable"></i>
+      </div>
+    </h5>
+    <div class="" data-bs-toggle="modal" data-bs-target="#exampleModal">
+      <img :src="recipe.img" class="img-fluid recipe-img" alt=""  @click="setActiveRecipe(recipe)" >
     </div>
-  </h5>
-  <button class="btn btn-outline bg-grey " data-bs-toggle="modal" data-bs-target="#exampleModal">
-  <img :src="recipe.img" class="img-fluid recipe-img" alt=""  @click="setActiveRecipe(recipe)" >
-  </button>
+  </figcaption>
 
 </template>
 
@@ -65,5 +68,55 @@ export default {
 
 
 <style lang="scss" scoped>
+figure {
+  margin: 0;
+  display: grid;
+  // grid-template-rows: 1fr auto;
+  background-color: white;
+}
 
+figure > img {
+  grid-row: 1 / -1;
+  grid-column: 1;
+}
+
+figure a {
+  color: black;
+  text-decoration: none;
+}
+
+figcaption {
+  grid-row: 2;
+  grid-column: 1;
+  background-color: rgba(255, 255, 255, 0);
+  padding: .2em .5em;
+  justify-self: start;
+  position: relative;
+
+  // display: flex;
+  // bottom: 50px;
+}
+
+.container {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: 1fr 2fr;
+  // height: 200vh;
+  align-tracks: inherit ;
+  align-content: start;
+}
+figcaption .avatar {
+  display: flex;
+  align-items: center;
+}
+.avatar{
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  position: relative;
+}
+.glassbox{
+  background-color: rgba(255, 255, 255, 0.658);
+}
 </style>

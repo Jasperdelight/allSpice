@@ -4,15 +4,27 @@
       <h1 class="text-center">AllSpice</h1>
       <!-- New recipe button -->
         <!-- Favorite Button -->
-        <div class="col-3 "><button class="btn btn-outline" @click="filterBy ='Mexican'">Mexican</button></div>
-        <div class="col-3 "><button class="btn btn-outline" @click="filterBy ='Italian'">Italian</button></div>
-        <div class="col-3"><button class="btn btn-outline" @click="filterBy = 'Cheese'">Cheese</button></div>
-        <div class="col-3"><button class="btn btn-outline" @click="filterBy =''">All</button></div>
+        <div class="d-flex justify-content-around">
+          <div class=""><button class="btn btn-outline" @click="filterBy =''">All</button></div>
+          <div class=" "><button class="btn btn-outline" @click="filterBy ='Pasta'">Pasta</button></div>
+          <div class=" "><button class="btn btn-outline" @click="filterBy ='Salads'">Salads</button></div>
+          <div class=" "><button class="btn btn-outline" @click="filterBy ='Beef'">Beef</button></div>
+          <div class=" "><button class="btn btn-outline" @click="filterBy ='Burgers'">Burgers</button></div>
+          <div class=" "><button class="btn btn-outline" @click="filterBy ='Specialy Coffee'">Coffee</button></div>
+          <div class=" "><button class="btn btn-outline" @click="filterBy ='Soup'">Soup</button></div>
+          <div class=" "><button class="btn btn-outline" @click="filterBy ='Mexican'">Mexican</button></div>
+          <div class=" "><button class="btn btn-outline" @click="filterBy ='Italian'">Italian</button></div>
+          <div class=""><button class="btn btn-outline" @click="filterBy = 'Cheese'">Cheese</button></div>
+          <div class=" "><button class="btn btn-outline" @click="filterBy ='Misc'">Misc</button></div>
+        </div>
         <!-- Recipe Cards -->
-      <div v-for="recipe in recipes" :key="recipe.id" class="col-3" >
-        <RecipeComponent :recipe="recipe"/>
-        
-      </div>
+        <div class="gallery-container">
+
+          <figure v-for="recipe in recipes" :key="recipe.id" class="elevation-4 rounded my-2" >
+            <RecipeComponent :recipe="recipe"/>
+            
+          </figure>
+        </div>
     </section>
   </div>
 
@@ -81,27 +93,44 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.home {
-  display: grid;
-  height: 80vh;
-  place-content: center;
-  text-align: center;
-  user-select: none;
-
-  .home-card {
-    width: 50vw;
-
-    >img {
-      height: 200px;
-      max-width: 200px;
-      width: 100%;
-      object-fit: contain;
-      object-position: center;
-    }
-
-  }
-
+.container {
+   max-width: 1224px;
+   margin: 0 auto;
 }
+
+img {
+   width: 500px;
+   object-fit: contain;
+   border-radius: 15px;
+}
+
+.gallery-container {
+  @media only screen 
+and (max-width : 390px){
+  column-count: 2;
+}
+@media only screen 
+and (min-width : 1224px){
+  column-count: 4;
+}
+column-count: 2;
+column-gap: 20px 20px;
+ width: 100%;
+}
+.gallery-container2 {
+ column-count: 2;
+ column-gap: 20px 20px;
+ width: 1200px;
+}
+
+figure {
+ margin: 0;
+ display: inline-block;
+ margin-bottom: 0px;
+ width: 100%;
+}
+
+
 .recipe-img{
       max-height: 200px;
       min-width:200px;

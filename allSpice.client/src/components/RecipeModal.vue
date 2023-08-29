@@ -63,7 +63,7 @@ export default {
           // logger.log(formData,'form submitted')
           await recipesService.createRecipe(formData)
           editable.value = {}
-          Modal.getOrCreateInstance('#exampleModal').hide()
+          Modal.getOrCreateInstance('#newRecipeModal').hide()
         } catch (error){
           Pop.error(error.message)
         }
