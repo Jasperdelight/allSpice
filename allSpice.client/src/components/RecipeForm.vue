@@ -1,32 +1,32 @@
 <template>
   <div class="container-fluid">
           <section class="row " v-if="activeRecipe">
-            <div class="col-4">
+            <div class="col-md-4 col-12">
               <img class="img-fluid" :src="activeRecipe.img" alt="">
             </div>
-            <div class="col-8">
+            <div class="col-md-8 col-12">
               <section class="row">
                 <div class="col-12">
                 </div>
               </section>
               <section class="row">
-                <div class="col-5 bg-grey mx-2">
+                <div class="col-md-5 col-12 bg-grey mx-2">
                   <h5>Recipe Steps</h5>
                   <p>{{ activeRecipe.instructions }}</p>
                   <form @submit.prevent="addInstructions()" action="" class="d-flex">
                     <input v-model="editableTwo.instructions" id="instructions" type="text" class="form-control">
-                    <button type="submit">+</button>
+                    <button class="btn btn-success" type="submit">+</button>
                   </form>
                 </div>
-                <div class="col-5 bg-grey mx-2">
+                <div class="col-md-5 col-12 bg-grey mx-2">
                   <h5>Ingredients</h5>
                   <div v-for="activeIngredient in activeIngredients" :key="activeIngredient.id">
                     <p> <span>{{ activeIngredient.quantity }}</span> {{activeIngredient.name}}</p>
                   </div>
-                    <form @submit.prevent="addIngredients()" action="" class="d-flex" id="form">
-                      <input v-model="editable.quantity" id="quantity" type="text" class="form-control" placeholder="quantity...">
-                      <input v-model="editable.name" id="name" type="text" class="form-control" placeholder="Ingredient...">
-                      <button type="submit"><i class="mdi mdi-plus"></i></button>
+                    <form  @submit.prevent="addIngredients()" action="" class="d-flex" id="form">
+                      <input v-model="editable.quantity" id="quantity" type="text" class="form-control" placeholder="Qty...">
+                      <input v-model="editable.name" id="name" type="text" class="form-control" placeholder="Ingr...">
+                      <button class="btn btn-success" type="submit"><i class="mdi mdi-plus"></i></button>
                     </form>
                 </div>
               </section>

@@ -4,9 +4,10 @@
       <!-- New recipe button -->
       <button class="btn btn" data-bs-toggle="modal" data-bs-target="#newRecipeModal">+</button >
         <!-- Favorite Button -->
-        <div class="col-3"><button @click="filterBy ='Mexican'">Mexican</button></div>
-        <div class="col-3"><button @click="filterBy =''">All</button></div>
-        <div class="col-3"><button @click="getFavoriteRecipes()">Favorites</button></div>
+        <div class="col-3"><button class="btn btn-outline" @click="filterBy =''">All</button></div>
+        <div class="col-3 "><button class="btn btn-outline" @click="filterBy ='Mexican'">Mexican</button></div>
+        <div class="col-3 "><button class="btn btn-outline" @click="filterBy ='Italian'">Italian</button></div>
+        <div class="col-3"><button class="btn btn-outline" @click="filterFavorite = 'fav'">Favorites</button></div>
         <!-- Recipe Cards -->
       <div v-for="recipe in recipes" :key="recipe.id" class="col-3 m-4 " >
         <RecipeComponent :recipe="recipe"/>
@@ -45,6 +46,7 @@ import RecipeForm from "../components/RecipeForm.vue";
 export default {
     setup() {
       const filterBy = ref('')
+      const filterFavorite = ref('')
         async function getRecipes() {
             await recipesService.getRecipes();
         }
@@ -53,6 +55,15 @@ export default {
         }
         onMounted(() => getRecipes());
         return {
+          filterFavorite,
+          favorites: computed(()=>{
+            if (filterFavorite.value == '') {
+              return AppState.Recipes
+            }else{
+              return AppState.Recipes == AppState.favorites.find(f => f.recipeId == AppState.Recipes.forEach(r=> r.id == f.recipeId))
+            }
+          }),
+          
           filterBy,
             recipes: computed(() =>{
               if(filterBy.value == ''){
@@ -61,7 +72,7 @@ export default {
                 return AppState.Recipes.filter(r=> r.category == filterBy.value)
               }
             }),
-            favorites: computed(() => AppState.favorites),
+            // favorites: computed(() => AppState.favorites),
             activeRecipe: computed(()=> AppState.activeRecipe),
             setActiveRecipe(recipe) {
                 recipesService.setActiveRecipe(recipe);
@@ -76,7 +87,7 @@ export default {
                 const favorites = AppState.favorites
 
                 recipesService.getFavoriteRecipes(favorites)
-                  
+                logger.log(favorites)
               } catch(error) {
                   Pop.error(error.message);
                   logger.log(error);

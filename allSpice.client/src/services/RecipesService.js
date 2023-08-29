@@ -12,8 +12,13 @@ class RecipesService {
     // logger.log(AppState.Recipes, "recipes")
   }
   async getFavoriteRecipes(favorites){
-    const res = await api.get("api/recipes")
-
+    // const res = await api.get("api/recipes")
+    // AppState.Recipes.find()
+    // let dictionary = Object.assign({}, ...favorites.map((x) => ({[x.id]: x.id})));
+    // logger.log(dictionary)
+    // logger.log(AppState.Recipes)
+    // let foundRecipe = AppState.Recipes.find(r=>r == dictionary[2].id)
+    // logger.log(foundRecipe)
   }
   setActiveRecipe(recipe){
     AppState.activeRecipe = new Recipe(recipe)

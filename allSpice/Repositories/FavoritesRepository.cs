@@ -14,7 +14,7 @@ public class FavoritesRepository
         _db = db;
     }
 
-    internal int CreateFavorite(Favorite fData)
+    internal Favorite CreateFavorite(Favorite fData)
     {
         string sql = @"
         INSERT INTO favorites(id, accountId, recipeId)
@@ -22,24 +22,58 @@ public class FavoritesRepository
         SELECT LAST_INSERT_ID()
         ;";
         int favoriteId = _db.ExecuteScalar<int>(sql, fData);
-        return favoriteId;
+        fData.Id = favoriteId;
+        return fData;
     }
 
     internal List<Favorite> GetAccountFavorites(string accountId)
     {
         string sql = @"
-        SELECT * FROM favorites WHERE accountId = @accountId
+        SELECT 
+        acc.*,
+        rec.*,
+        fav.*
+        FROM favorites fav
+        JOIN accounts acc on acc.id = fav.accountId
+        JOIN recipes rec ON fav.recipeId = rec.id
+        WHERE acc.id = @accountId
         ;";
-        List<Favorite> favorites = _db.Query<Favorite>(sql, new {accountId}).ToList();
+        List<Favorite> favorites = _db.Query<Account, Recipe, Favorite, Favorite>(
+            sql,
+            (profile, recipe, favorite) =>
+            {
+                favorite.Creator = profile;
+                favorite.Recipe = recipe;
+                return favorite;
+            },
+            
+             new {accountId}).ToList();
         return favorites;
     }
 
     internal Favorite GetFavoriteById(int favoriteId)
     {
         string sql = @"
-        SELECT * FROM favorites WHERE id = @favoriteId
+        SELECT 
+        acc.*,
+        rec.*,
+        fav.*
+        FROM favorites fav
+        JOIN accounts acc on acc.id = fav.accountId
+        JOIN recipes rec ON fav.recipeId = rec.id
+        WHERE fav.id = @favoriteId
         ;";
-        Favorite favorite = _db.QueryFirstOrDefault<Favorite>(sql, new {favoriteId});
+        Favorite favorite = _db.Query<Account, Recipe, Favorite, Favorite>
+        
+        (sql,
+        (account, recipe, favorite) =>
+        {
+            favorite.Creator = account;
+            favorite.Recipe = recipe;
+            return favorite;
+        },
+        
+         new {favoriteId}).FirstOrDefault();
         return favorite;
     }
 
