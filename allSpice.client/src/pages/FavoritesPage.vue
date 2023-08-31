@@ -1,9 +1,9 @@
 <template>
 <div class="container-fluid">
   <section class="row justify-content-center text-center">
-    <h1 class="col-12 text-center">
+    <h2 class="col-12 text-center">
       Favorites
-    </h1>
+    </h2>
     <div class="d-flex justify-content-around">
 
       <div class=""><button class="btn btn-outline" @click="filterBy =''">All</button></div>

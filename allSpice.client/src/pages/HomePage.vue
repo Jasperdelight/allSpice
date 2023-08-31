@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid">
     <section class="row justify-content-center text-center">
-      <h1 class="text-center">AllSpice</h1>
+      <h2 class="text-center" >Recipes</h2>
       <!-- New recipe button -->
         <!-- Favorite Button -->
         <div class="d-flex justify-content-around">
