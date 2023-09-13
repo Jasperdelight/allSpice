@@ -13,7 +13,7 @@
                 <div class="col-md-5 col-12 bg-grey mx-2">
                   <h5>Recipe Steps</h5>
                   <p>{{ activeRecipe.instructions }}</p>
-                  <form @submit.prevent="addInstructions()" action="" class="d-flex">
+                  <form v-if="account.id == activeRecipe.creatorId" @submit.prevent="addInstructions()" action="" class="d-flex">
                     <input v-model="editableTwo.instructions" id="instructions" type="text" class="form-control">
                     <button class="btn btn-success" type="submit">+</button>
                   </form>
@@ -23,7 +23,7 @@
                   <div v-for="activeIngredient in activeIngredients" :key="activeIngredient.id">
                     <p> <span>{{ activeIngredient.quantity }}</span> {{activeIngredient.name}}</p>
                   </div>
-                    <form  @submit.prevent="addIngredients()" action="" class="d-flex" id="form">
+                    <form v-if="account.id == activeRecipe.creatorId" @submit.prevent="addIngredients()" action="" class="d-flex" id="form">
                       <input v-model="editable.quantity" id="quantity" type="text" class="form-control" placeholder="Qty...">
                       <input v-model="editable.name" id="name" type="text" class="form-control" placeholder="Ingr...">
                       <button class="btn btn-success" type="submit"><i class="mdi mdi-plus"></i></button>
@@ -60,6 +60,7 @@ export default {
     return {
       activeRecipe: computed(()=> AppState.activeRecipe),
       activeIngredients: computed(()=> AppState.activeIngredients),
+      account: computed(()=> AppState.account),
       editable,
       editableTwo,
       async addInstructions(){
@@ -68,12 +69,14 @@ export default {
         const newInstructions = AppState.activeRecipe
         newInstructions.instructions = editableTwo.value.instructions
         // logger.log('editableTwo', editableTwo.value)
-        await recipesService.addInstructions(newInstructions, this.activeRecipe.id) 
+        await recipesService.addInstructions(newInstructions, this.activeRecipe.id)
+        editableTwo.value = {} 
       },
       async addIngredients(){
         let newIngredient = editable.value
         newIngredient.recipeId = this.activeRecipe.id
         await ingredientsService.addIngredients(newIngredient)
+        editable.value = {}
       }
       
     }

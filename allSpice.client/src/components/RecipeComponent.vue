@@ -3,8 +3,8 @@
 
     <h5  class="d-flex justify-content-between">{{ recipe.title }} 
       <div>
-        <i v-if="!isFavorited" @click="favoriteRecipe(recipe.id)" class="mdi mdi-heart-outline selectable"></i>
-        <i v-else @click="unFavoriteRecipe(recipe.id)" class="mdi mdi-heart selectable"></i>
+        <i v-if="!isFavorited && account.id" @click="favoriteRecipe(recipe.id)" class="mdi mdi-heart-outline selectable"></i>
+        <i v-if="isFavorited" @click="unFavoriteRecipe(recipe.id)" class="mdi mdi-heart selectable"></i>
       </div>
     </h5>
     <div class="" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -35,6 +35,7 @@ export default {
       props,
       recipes: computed(()=> AppState.Recipes),
       favorites: computed(()=> AppState.favorites),
+      account: computed(()=> AppState.account),
       isFavorited:computed(()=> AppState.favorites.find(f => f.recipeId == props.recipe.id )),
       favoriteRecipes:computed(()=> AppState.favorites.find(f => f.recipeId == props.recipe.id )),
       setActiveRecipe(recipe){

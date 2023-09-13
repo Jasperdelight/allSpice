@@ -12,10 +12,10 @@
     <div class="collapse navbar-collapse" id="navbarText">
       <ul class="navbar-nav me-auto">
         <li>
-          <router-link :to="{ name: 'Favorites' }" class="btn text-warning lighten-30 selectable text-uppercase" >
+          <router-link :to="{ name: 'Favorites' }" class="btn text-warning lighten-30 selectable text-uppercase" v-if="account.id">
             Favorites
           </router-link>
-          <button class="btn btn text-primary" data-bs-toggle="modal" data-bs-target="#newRecipeModal">+</button >
+          <button class="btn btn text-primary" data-bs-toggle="modal" data-bs-target="#newRecipeModal" v-if="account.id">+</button >
         </li>
       </ul>
 
@@ -26,10 +26,14 @@
 </template>
 
 <script>
+import { computed } from "vue";
 import Login from './Login.vue';
+import { AppState } from "../AppState";
 export default {
   setup() {
-    return {}
+    return {
+      account: computed(()=> AppState.account)
+    }
   },
   components: { Login }
 }
