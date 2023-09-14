@@ -1,16 +1,3 @@
-CodeWorks Vue Starter
-=====================
-This template is designed to help get students started building vue applications
-
-## Legal Overview
-
-The content under the CodeWorks®, LLC Organization and all of the individual repos are solely intended for use by CodeWorks Instruction to deliver Educational content to CodeWorks Students.
-
----
-
-## Copyright
-
-© CodeWorks® LLC, 2021. Unauthorized use and/or duplication of this material without express and written permission from CodeWorks, LLC is strictly prohibited.
-
-
-<img src="https://bcw.blob.core.windows.net/public/img/7815839041305055" width="125">
+AllSpice
+=======
+Application to let users create their own recipes and add ingredients to share with others. Users can favorite recipe and bring up just their favorites. Uses a Vue.js frontend with C# and dotnet backend. Using Auth0 Authentication service.
